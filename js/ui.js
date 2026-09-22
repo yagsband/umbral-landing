@@ -7,6 +7,11 @@
 (() => {
 'use strict';
 
+/* Abrir siempre desde el inicio: sin #ancla heredada y sin restaurar la posición de scroll (móvil). */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+window.scrollTo(0, 0);
+
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -53,7 +58,6 @@ $$('a[href^="#"]').forEach((a) => {
     e.preventDefault();
     closeMenu();
     scrollToTarget(target);
-    history.replaceState(null, '', hash);
   });
 });
 
